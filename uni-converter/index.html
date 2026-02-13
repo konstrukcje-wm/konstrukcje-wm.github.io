@@ -4,66 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konwerter Unitechnik | Konstrukcje WM</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <style>
         :root {
-            --primary: #1a3a5c;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --success: #38a169;
-            --error: #e53e3e;
-            --bg: #f7fafc;
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --accent: #27ae60;
+            --accent-hover: #219a52;
+            --bg: #f4f6f8;
             --card: #ffffff;
-            --text: #2d3748;
-            --text-light: #718096;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #dce1e6;
+            --danger: #e74c3c;
+            --warning: #f39c12;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
         }
 
         .header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header-logo {
-            width: 48px;
-            height: 48px;
-            background: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.7rem;
-            line-height: 1.1;
-            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .header h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
         .header p {
             font-size: 0.85rem;
             opacity: 0.85;
+            margin-top: 0.25rem;
         }
 
         .container {
@@ -75,10 +57,10 @@
         .card {
             background: var(--card);
             border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            padding: 2rem;
+            padding: 1.75rem;
             margin-bottom: 1.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
         }
 
         .card h2 {
@@ -90,82 +72,77 @@
             gap: 0.5rem;
         }
 
-        .card h2 .step {
-            background: var(--accent);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            flex-shrink: 0;
+        .card h2 .icon {
+            font-size: 1.3rem;
         }
 
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
+        label {
             display: block;
             font-weight: 500;
-            margin-bottom: 0.4rem;
             font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            color: var(--text);
         }
 
-        .form-group .hint {
-            font-size: 0.8rem;
+        label .hint {
+            font-weight: 400;
             color: var(--text-light);
-            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
         }
 
         input[type="text"] {
             width: 100%;
             max-width: 300px;
             padding: 0.6rem 0.8rem;
-            border: 2px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 8px;
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
             transition: border-color 0.2s;
+            font-family: 'Consolas', 'Courier New', monospace;
+            text-transform: uppercase;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.12);
         }
 
-        .dropzone {
+        .form-row {
+            margin-bottom: 1.25rem;
+        }
+
+        .drop-zone {
             border: 2px dashed var(--border);
             border-radius: 12px;
             padding: 2.5rem 1.5rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-            background: #f8fafc;
+            transition: all 0.25s;
+            background: #fafbfc;
         }
 
-        .dropzone:hover, .dropzone.dragover {
-            border-color: var(--accent);
-            background: #ebf8ff;
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--primary-light);
+            background: #eef5fb;
         }
 
-        .dropzone .icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
+        .drop-zone .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
 
-        .dropzone p {
+        .drop-zone p {
+            font-size: 0.95rem;
             color: var(--text-light);
-            font-size: 0.9rem;
         }
 
-        .dropzone .browse {
-            color: var(--accent);
-            font-weight: 500;
-            text-decoration: underline;
+        .drop-zone p strong {
+            color: var(--primary-light);
             cursor: pointer;
+        }
+
+        .drop-zone .formats {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
         }
 
         .file-list {
@@ -175,35 +152,51 @@
         .file-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
             padding: 0.5rem 0.75rem;
-            background: #f7fafc;
+            background: #f8f9fa;
             border-radius: 6px;
             margin-bottom: 0.4rem;
             font-size: 0.85rem;
         }
 
-        .file-item .name { flex: 1; font-weight: 500; }
-        .file-item .size { color: var(--text-light); }
+        .file-item .name {
+            font-family: 'Consolas', monospace;
+            font-weight: 500;
+        }
+
+        .file-item .size {
+            color: var(--text-light);
+            font-size: 0.78rem;
+        }
+
         .file-item .remove {
+            color: var(--danger);
             cursor: pointer;
-            color: var(--error);
-            font-weight: 600;
-            padding: 0 0.25rem;
+            font-size: 1rem;
+            padding: 0 0.3rem;
+            border: none;
+            background: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.75rem;
             border: none;
             border-radius: 8px;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
@@ -212,676 +205,679 @@
         }
 
         .btn-primary:hover:not(:disabled) {
-            background: var(--primary-light);
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
         }
 
         .btn-primary:disabled {
-            background: #a0aec0;
+            background: #bdc3c7;
             cursor: not-allowed;
         }
 
-        .btn-success {
-            background: var(--success);
-            color: white;
+        .btn-secondary {
+            background: white;
+            color: var(--text);
+            border: 1.5px solid var(--border);
         }
 
-        .btn-success:hover {
-            background: #2f855a;
+        .btn-secondary:hover {
+            background: #f8f9fa;
+            border-color: #bbb;
         }
 
-        .results {
+        .log-area {
+            background: #1e2730;
+            color: #e0e6ed;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            max-height: 350px;
+            overflow-y: auto;
             display: none;
         }
 
-        .results.show {
-            display: block;
-        }
+        .log-area.active { display: block; }
 
-        .log {
-            background: #1a202c;
-            color: #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            max-height: 300px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
+        .log-area .log-ok { color: #2ecc71; }
+        .log-area .log-warn { color: #f1c40f; }
+        .log-area .log-err { color: #e74c3c; }
+        .log-area .log-info { color: #3498db; }
 
-        .log .info { color: #63b3ed; }
-        .log .success { color: #68d391; }
-        .log .warn { color: #f6e05e; }
-        .log .error { color: #fc8181; }
-
-        .summary {
+        .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
+            gap: 0.75rem;
+            margin-top: 1rem;
         }
 
-        .summary-item {
+        .stat-box {
             text-align: center;
-            padding: 1rem;
-            background: #f7fafc;
+            padding: 0.75rem;
+            background: #f8f9fa;
             border-radius: 8px;
         }
 
-        .summary-item .value {
-            font-size: 1.8rem;
+        .stat-box .num {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
         }
 
-        .summary-item .label {
+        .stat-box .label {
             font-size: 0.75rem;
             color: var(--text-light);
-            margin-top: 0.2rem;
+            margin-top: 0.15rem;
         }
 
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
-            font-size: 0.8rem;
+        .result-area {
+            display: none;
         }
 
-        .inline-inputs {
+        .result-area.active { display: block; }
+
+        .info-box {
+            background: #eef5fb;
+            border-left: 4px solid var(--primary-light);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .checkbox-row {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .inline-inputs .form-group {
-            flex: 1;
-            min-width: 200px;
+        .checkbox-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-row label {
+            margin-bottom: 0;
+            font-weight: 400;
+            font-size: 0.88rem;
         }
 
         @media (max-width: 600px) {
             .container { padding: 0 1rem; }
             .card { padding: 1.25rem; }
-            .header { padding: 1rem; }
-            .header h1 { font-size: 1.1rem; }
+            .header { padding: 1.25rem 1rem; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="header-logo">KWM</div>
-        <div>
-            <h1>Konwerter Unitechnik</h1>
-            <p>Konwersja plików .uni z Planbara do standardu Unitechnik CAD-CAM</p>
-        </div>
+        <h1>🔧 Konwerter Unitechnik</h1>
+        <p>Konwersja plików .uni z Planbara do standardu Unitechnik CAD-CAM</p>
     </div>
 
     <div class="container">
-        <!-- Step 1: Settings -->
+        <!-- Settings -->
         <div class="card">
-            <h2><span class="step">1</span> Ustawienia</h2>
-            <div class="inline-inputs">
-                <div class="form-group">
-                    <label for="orderName">Nazwa zamówienia / projektu</label>
-                    <div class="hint">np. NSPN, NGOM — max 20 znaków, bez spacji</div>
-                    <input type="text" id="orderName" placeholder="np. NSPN" maxlength="20">
+            <h2><span class="icon">⚙️</span> Ustawienia konwersji</h2>
+            <div class="form-row">
+                <label>Nazwa zamówienia <span class="hint">(max 20 znaków, np. NGOM, NSPN)</span></label>
+                <input type="text" id="orderName" placeholder="np. NGOM" maxlength="20" autocomplete="off">
+            </div>
+            <div class="form-row">
+                <label style="margin-bottom: 0.6rem;">Poprawki do zastosowania:</label>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="fixHeader" checked>
+                    <label for="fixHeader">Nagłówek (HEADER) — podmiana nazwy zamówienia</label>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="fixSlabdate" checked>
+                    <label for="fixSlabdate">SLABDATE — uzupełnienie brakujących zer</label>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="fixRodstock" checked>
+                    <label for="fixRodstock">RODSTOCK — konwersja gięcia prętów (format 001→002)</label>
                 </div>
             </div>
         </div>
 
-        <!-- Step 2: Upload -->
+        <!-- File upload -->
         <div class="card">
-            <h2><span class="step">2</span> Pliki do konwersji</h2>
-            <div class="dropzone" id="dropzone">
-                <div class="icon">📁</div>
-                <p>Przeciągnij pliki <strong>.uni</strong> lub <strong>.zip</strong> tutaj</p>
-                <p>lub <span class="browse">wybierz z dysku</span></p>
+            <h2><span class="icon">📁</span> Pliki wejściowe</h2>
+            <div class="drop-zone" id="dropZone">
+                <div class="icon">📄</div>
+                <p>Przeciągnij pliki .uni tutaj lub <strong>kliknij aby wybrać</strong></p>
+                <p class="formats">Akceptowane formaty: .uni, .zip (paczka plików .uni)</p>
             </div>
             <input type="file" id="fileInput" multiple accept=".uni,.zip" style="display:none">
             <div class="file-list" id="fileList"></div>
         </div>
 
-        <!-- Step 3: Convert -->
+        <!-- Convert button -->
         <div class="card">
-            <h2><span class="step">3</span> Konwertuj</h2>
-            <button class="btn btn-primary" id="convertBtn" disabled>
-                ⚙️ Konwertuj pliki
-            </button>
+            <div class="actions">
+                <button class="btn btn-primary" id="convertBtn" disabled>
+                    🔄 Konwertuj pliki
+                </button>
+                <button class="btn btn-secondary" id="clearBtn" style="display:none">
+                    🗑️ Wyczyść
+                </button>
+            </div>
         </div>
 
         <!-- Results -->
-        <div class="card results" id="results">
-            <h2>📊 Wyniki konwersji</h2>
-            <div class="summary" id="summary"></div>
-            <button class="btn btn-success" id="downloadBtn">
-                ⬇️ Pobierz skonwertowane pliki (.zip)
-            </button>
-            <div style="margin-top:1rem;">
-                <details>
-                    <summary style="cursor:pointer; font-weight:500; font-size:0.9rem;">📋 Szczegółowy log</summary>
-                    <div class="log" id="log" style="margin-top:0.5rem;"></div>
-                </details>
+        <div class="result-area" id="resultArea">
+            <div class="card">
+                <h2><span class="icon">✅</span> Wynik konwersji</h2>
+                <div class="stats" id="stats"></div>
+                <div style="margin-top: 1.25rem;">
+                    <button class="btn btn-primary" id="downloadBtn">
+                        ⬇️ Pobierz skonwertowane pliki (.zip)
+                    </button>
+                </div>
             </div>
+        </div>
+
+        <!-- Log -->
+        <div class="card">
+            <h2><span class="icon">📋</span> Log konwersji</h2>
+            <div class="log-area active" id="logArea">
+                <div class="log-info">Gotowy do pracy. Wgraj pliki .uni i kliknij "Konwertuj".</div>
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="info-box">
+            <strong>ℹ️ Informacja:</strong> Wszystkie pliki przetwarzane są lokalnie w przeglądarce — żadne dane nie są wysyłane na serwer.
+            Konwerter poprawia pliki wyeksportowane z Planbara, dostosowując je do wymagań standardu Unitechnik CAD-CAM v6.x.
         </div>
     </div>
 
-    <div class="footer">
-        Konstrukcje WM &bull; Konwerter Unitechnik v1.0
-    </div>
-
     <script>
-    // ========== FILE MANAGEMENT ==========
-    let uploadedFiles = []; // {name, content}
-    let convertedZip = null;
+    // ============================================================
+    //  Unitechnik .uni Converter — Browser-side logic
+    // ============================================================
 
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('fileInput');
-    const fileList = document.getElementById('fileList');
-    const convertBtn = document.getElementById('convertBtn');
-    const results = document.getElementById('results');
-    const logEl = document.getElementById('log');
-    const summaryEl = document.getElementById('summary');
-    const downloadBtn = document.getElementById('downloadBtn');
+    const state = {
+        files: new Map(), // filename -> content (string)
+        converted: new Map(), // filename -> converted content
+        zipBlob: null
+    };
 
-    dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-    dropzone.addEventListener('drop', e => {
+    // ---------- DOM refs ----------
+    const $dropZone   = document.getElementById('dropZone');
+    const $fileInput   = document.getElementById('fileInput');
+    const $fileList    = document.getElementById('fileList');
+    const $convertBtn  = document.getElementById('convertBtn');
+    const $clearBtn    = document.getElementById('clearBtn');
+    const $resultArea  = document.getElementById('resultArea');
+    const $stats       = document.getElementById('stats');
+    const $downloadBtn = document.getElementById('downloadBtn');
+    const $logArea     = document.getElementById('logArea');
+    const $orderName   = document.getElementById('orderName');
+
+    // ---------- Logging ----------
+    function clearLog() { $logArea.innerHTML = ''; }
+    function log(msg, cls = '') {
+        const div = document.createElement('div');
+        div.className = cls ? `log-${cls}` : '';
+        div.textContent = msg;
+        $logArea.appendChild(div);
+        $logArea.scrollTop = $logArea.scrollHeight;
+    }
+
+    // ---------- File handling ----------
+    $dropZone.addEventListener('click', () => $fileInput.click());
+    $dropZone.addEventListener('dragover', e => { e.preventDefault(); $dropZone.classList.add('drag-over'); });
+    $dropZone.addEventListener('dragleave', () => $dropZone.classList.remove('drag-over'));
+    $dropZone.addEventListener('drop', e => {
         e.preventDefault();
-        dropzone.classList.remove('dragover');
+        $dropZone.classList.remove('drag-over');
         handleFiles(e.dataTransfer.files);
     });
-    fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+    $fileInput.addEventListener('change', e => handleFiles(e.target.files));
 
-    async function handleFiles(files) {
-        for (const file of files) {
-            if (file.name.endsWith('.zip')) {
-                const zip = await JSZip.loadAsync(file);
-                for (const [path, zipEntry] of Object.entries(zip.files)) {
-                    if (!zipEntry.dir && (path.endsWith('.uni') || /\.\d{3}$/.test(path))) {
-                        const content = await zipEntry.async('string');
-                        const name = path.split('/').pop();
-                        if (!uploadedFiles.find(f => f.name === name)) {
-                            uploadedFiles.push({ name, content });
-                        }
-                    }
-                }
-            } else if (file.name.endsWith('.uni') || /\.\d{3}$/.test(file.name)) {
-                const content = await file.text();
-                if (!uploadedFiles.find(f => f.name === file.name)) {
-                    uploadedFiles.push({ name: file.name, content });
-                }
+    async function handleFiles(fileListObj) {
+        for (const file of fileListObj) {
+            if (file.name.toLowerCase().endsWith('.zip')) {
+                await handleZip(file);
+            } else if (file.name.toLowerCase().endsWith('.uni')) {
+                const text = await file.text();
+                state.files.set(file.name, text);
+                log(`Dodano: ${file.name} (${formatSize(file.size)})`, 'info');
+            } else {
+                log(`Pominięto: ${file.name} (nieobsługiwany format)`, 'warn');
             }
         }
         renderFileList();
-        updateConvertBtn();
+        updateButtons();
+    }
+
+    async function handleZip(file) {
+        try {
+            const zip = await JSZip.loadAsync(file);
+            let count = 0;
+            for (const [path, entry] of Object.entries(zip.files)) {
+                if (!entry.dir && path.toLowerCase().endsWith('.uni')) {
+                    const name = path.split('/').pop();
+                    const text = await entry.async('string');
+                    state.files.set(name, text);
+                    count++;
+                }
+            }
+            log(`Rozpakowano: ${file.name} → ${count} plików .uni`, 'info');
+        } catch (e) {
+            log(`Błąd odczytu ZIP: ${e.message}`, 'err');
+        }
     }
 
     function renderFileList() {
-        fileList.innerHTML = uploadedFiles.map((f, i) => `
-            <div class="file-item">
-                <span>📄</span>
-                <span class="name">${f.name}</span>
-                <span class="size">${(f.content.length / 1024).toFixed(1)} KB</span>
-                <span class="remove" onclick="removeFile(${i})">✕</span>
-            </div>
-        `).join('');
+        $fileList.innerHTML = '';
+        for (const [name, content] of state.files) {
+            const div = document.createElement('div');
+            div.className = 'file-item';
+            div.innerHTML = `
+                <span class="name">${name}</span>
+                <span class="size">${formatSize(content.length)}</span>
+                <button class="remove" data-name="${name}" title="Usuń">✕</button>
+            `;
+            $fileList.appendChild(div);
+        }
+        $fileList.querySelectorAll('.remove').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.files.delete(btn.dataset.name);
+                renderFileList();
+                updateButtons();
+            });
+        });
     }
 
-    function removeFile(idx) {
-        uploadedFiles.splice(idx, 1);
+    function updateButtons() {
+        const hasFiles = state.files.size > 0;
+        $convertBtn.disabled = !hasFiles;
+        $clearBtn.style.display = hasFiles ? '' : 'none';
+    }
+
+    $clearBtn.addEventListener('click', () => {
+        state.files.clear();
+        state.converted.clear();
+        state.zipBlob = null;
+        $resultArea.classList.remove('active');
         renderFileList();
-        updateConvertBtn();
+        updateButtons();
+        clearLog();
+        log('Wyczyszczono.', 'info');
+    });
+
+    function formatSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        return (bytes / 1024).toFixed(1) + ' KB';
     }
 
-    function updateConvertBtn() {
-        convertBtn.disabled = uploadedFiles.length === 0;
-    }
-
-    // ========== CONVERTER CORE ==========
-
-    function log(msg, type = 'info') {
-        logEl.innerHTML += `<div class="${type}">${msg}</div>`;
-        logEl.scrollTop = logEl.scrollHeight;
-    }
+    // ============================================================
+    //  CONVERTER CORE
+    // ============================================================
 
     /**
-     * Parse header line 3 fields by position.
-     * Format: aaaaaaaaaaaaaaaaaaaa bbbbb cccc dddddddd 11 ee
-     *         1-20                22-26  28-31 33-40   42-43 45-46
+     * Compute transition length for a bent bar in polyline format.
+     * Based on empirical data from known Planbar↔Unitechnik file pairs:
+     *   offset=40 → transition=93 (consistent across different bar diameters and mandrels)
      */
-    function parseHeaderLine3(line) {
-        const padded = line.replace(/[\r\n]+$/, '').padEnd(46);
-        return {
-            order: padded.substring(0, 20).trim(),
-            component: padded.substring(21, 26).trim(),
-            storey: padded.substring(27, 31).trim(),
-            drawingNum: padded.substring(32, 40).trim(),
-            product: padded.substring(41, 43).trim(),
-            revision: padded.substring(44, 46).trim(),
-        };
-    }
-
-    function formatHeaderLine3(order, component, storey, drawingNum, product = '00', revision = '') {
-        return (
-            order.padEnd(20) + ' ' +
-            component.padEnd(5) + ' ' +
-            storey.padEnd(4) + ' ' +
-            drawingNum.padEnd(8) + ' ' +
-            product.padEnd(2) + ' ' +
-            revision.padEnd(2)
-        ).replace(/\s+$/, '') + '   ';
-    }
-
-    /**
-     * Extract element number from SLABDATE section.
-     */
-    function extractElementNum(lines) {
-        let inSlabdate = false;
-        for (const line of lines) {
-            const s = line.trim();
-            if (s === 'SLABDATE') { inSlabdate = true; continue; }
-            if (inSlabdate && s && s !== '610') {
-                return s.split(/\s+/)[0];
-            }
-        }
-        return '';
-    }
-
-    /**
-     * Extract storey from raw header.
-     */
-    function extractStorey(lines) {
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].trim() === 'HEADER__' && i + 2 < lines.length) {
-                const parsed = parseHeaderLine3(lines[i + 2]);
-                return parsed.storey;
-            }
-        }
-        return '';
-    }
-
-    /**
-     * Fix zero-padding in SLABDATE dimension line.
-     * Raw:   "11.760 000 00          0.000 ..."
-     * Fixed: "11.760 000 00 00000000 0.000 ..."
-     */
-    function fixSlabdateZeroPadding(line) {
-        return line.replace(
-            /(\d+\.\d+ \d{3} \d{2}) {10}(\d+\.\d+)/,
-            '$1 00000000 $2'
-        );
-    }
-
-    /**
-     * Compute transition length for bent bar polyline.
-     * Based on known examples: offset=40 → transition=93
-     * Uses ratio-based formula for other offsets.
-     */
-    function computeTransition(offset) {
+    function computeTransitionLength(offset) {
         if (offset <= 0) return 0;
-        // Known calibration: offset 40 → transition 93
+        // Known mapping: 40→93. Use linear ratio as approximation.
         return Math.round(offset * 93.0 / 40.0);
     }
 
     /**
-     * Parse format 001 bent bar data.
-     * Returns null if not a format 001 bent bar.
+     * Parse format 001 bend line into two bend descriptions.
+     * Format: "004 00200 00000 00000 00060 040 004 00100 00000 00000 00060 040 +000"
      */
-    function parseRodFormat001(lines, idx) {
-        if (idx + 2 >= lines.length) return null;
-
-        const line1 = lines[idx].trim();
-        const parts1 = line1.split(/\s+/);
-        if (parts1.length < 11 || parts1[2] !== '2') return null; // Not shape type 2 (bent)
-
-        const line2 = lines[idx + 1].trim();
-        const parts2 = line2.split(/\s+/);
-        if (parts2.length < 7 || parts2[6] !== '001') return null; // Not format 001
-
-        const line3 = lines[idx + 2].trim();
-        const parts3 = line3.split(/\s+/);
-        if (parts3.length < 13) return null;
-
+    function parseBendLine001(line) {
+        const p = line.trim().split(/\s+/);
+        if (p.length < 13) return null;
         return {
-            line1raw: lines[idx],
-            parts1,
-            diameter: parseInt(parts1[5]),
-            length: parseInt(parts1[6]),
-            yPos: parseInt(parts1[7]),
-            mandrel: parseInt(parts2[1]),
-            bendValue: parseInt(parts2[5]),
-            line2parts: parts2,
-            line2raw: lines[idx + 1],
             bend1: {
-                type: parseInt(parts3[0]),
-                length: parseInt(parts3[1]),
-                param: parseInt(parts3[4]),
-                offset: parseInt(parts3[5]),
+                type: parseInt(p[0]),
+                length: parseInt(p[1]),
+                p2: parseInt(p[2]),
+                p3: parseInt(p[3]),
+                param: parseInt(p[4]),
+                offset: parseInt(p[5])
             },
             bend2: {
-                type: parseInt(parts3[6]),
-                length: parseInt(parts3[7]),
-                param: parseInt(parts3[10]),
-                offset: parseInt(parts3[11]),
+                type: parseInt(p[6]),
+                length: parseInt(p[7]),
+                p2: parseInt(p[8]),
+                p3: parseInt(p[9]),
+                param: parseInt(p[10]),
+                offset: parseInt(p[11])
             },
-            bendDirection: parts3[12],
+            direction: p[12]
         };
     }
 
     /**
-     * Format a number with sign and zero-padding.
-     * e.g., formatSigned(5, -202) → "-00202"
+     * Format a number with sign and zero-padding: e.g., -202 → "-00202", 50 → "+00050"
      */
-    function formatSigned(width, value) {
-        const sign = value >= 0 ? '+' : '-';
-        return sign + Math.abs(value).toString().padStart(width - 1, '0');
-    }
-
-    function formatUnsigned(width, value) {
-        return Math.abs(value).toString().padStart(width, '0');
+    function signedNum(val, width = 5) {
+        const sign = val >= 0 ? '+' : '-';
+        return sign + String(Math.abs(val)).padStart(width, '0');
     }
 
     /**
-     * Convert a bent bar from format 001 to format 002.
-     * Returns array of replacement lines (with \r\n).
+     * Convert a single .uni file content.
      */
-    function convertRod001to002(rod, lineEnding) {
-        const { bend1, bend2, mandrel, diameter, length: totalLen } = rod;
-        const hasBend1 = bend1.offset > 0;
-        const hasBend2 = bend2.offset > 0;
+    function convertUniFile(content, orderName, options = {}) {
+        const fixHeader = options.fixHeader !== false;
+        const fixSlabdate = options.fixSlabdate !== false;
+        const fixRodstock = options.fixRodstock !== false;
 
-        const trans1 = hasBend1 ? computeTransition(bend1.offset) : 0;
-        const trans2 = hasBend2 ? computeTransition(bend2.offset) : 0;
-        const l1 = hasBend1 ? bend1.length : 0;
-        const l2 = hasBend2 ? bend2.length : 0;
-        const o1 = hasBend1 ? bend1.offset : 0;
-        const o2 = hasBend2 ? bend2.offset : 0;
+        // Normalize line endings — keep \r\n (standard for Unitechnik)
+        const rawLines = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+        const lines = rawLines; // work on array
 
-        // === Line 1: Fix Y-position ===
-        let newLine1 = rod.line1raw;
-        if (hasBend1 || hasBend2) {
-            const yAdj = Math.floor(Math.max(o1, o2) / 2);
-            const newY = rod.yPos + yAdj;
-            // Replace Y-pos in original line (preserve formatting)
-            const oldYStr = rod.parts1[7];
-            const newYStr = formatSigned(oldYStr.length, newY);
-            // Find and replace only the Y-position field in line 1
-            const parts = rod.parts1.slice();
-            parts[7] = newYStr;
-            // Rebuild line preserving original spacing pattern
-            newLine1 = rebuildRodLine1(rod.line1raw, rod.parts1, parts);
+        const stats = { headerFixed: false, slabdateFixed: false, rodsConverted: 0 };
+
+        // --- First pass: extract element number from SLABDATE ---
+        let elementNum = '';
+        let storey = '';
+        for (let i = 0; i < lines.length; i++) {
+            const s = lines[i].trim();
+            if (s === 'SLABDATE') {
+                for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
+                    const t = lines[j].trim();
+                    if (t && t !== '610') {
+                        elementNum = t.split(/\s+/)[0];
+                        break;
+                    }
+                }
+                break;
+            }
         }
 
-        // === Line 2: Update bend value and format ===
-        const newBendValue = rod.bendValue + (hasBend1 ? bend1.param : bend2.param);
-        const parts2 = rod.line2parts.slice();
-        parts2[5] = formatUnsigned(5, newBendValue);
-        parts2[6] = '002';
-        const newLine2 = parts2.join(' ');
-
-        // === Lines 3-4: Build polyline ===
-        const result = [newLine1.replace(/[\r\n]+$/, '') + lineEnding, newLine2 + lineEnding];
-
-        if (hasBend1 && hasBend2) {
-            const middle = totalLen - l1 - l2 - trans1 - trans2;
-            result.push('000 01' + lineEnding);
-            result.push(
-                '01 05 ' +
-                formatUnsigned(5, l1) + ' ' + formatSigned(4, -o1) + ' ' +
-                formatUnsigned(5, trans1) + ' ' + formatSigned(4, o1) + ' ' +
-                formatUnsigned(5, middle) + ' ' + formatSigned(4, o2) + ' ' +
-                formatUnsigned(5, trans2) + ' ' + formatSigned(4, -o2) + ' ' +
-                formatUnsigned(5, l2) + ' +000' + lineEnding
-            );
-        } else if (hasBend1) {
-            const middle = totalLen - l1 - trans1;
-            result.push('000 01' + lineEnding);
-            result.push(
-                '01 03 ' +
-                formatUnsigned(5, l1) + ' ' + formatSigned(4, -o1) + ' ' +
-                formatUnsigned(5, trans1) + ' ' + formatSigned(4, o1) + ' ' +
-                formatUnsigned(5, middle) + ' +000' + lineEnding
-            );
-        } else if (hasBend2) {
-            const middle = totalLen - l2 - trans2;
-            result.push('000 01' + lineEnding);
-            result.push(
-                '01 03 ' +
-                formatUnsigned(5, middle) + ' ' + formatSigned(4, o2) + ' ' +
-                formatUnsigned(5, trans2) + ' ' + formatSigned(4, -o2) + ' ' +
-                formatUnsigned(5, l2) + ' +000' + lineEnding
-            );
+        // Extract storey from raw header if present (e.g., "GARA" at positions 27-31)
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim() === 'HEADER__') {
+                if (i + 2 < lines.length) {
+                    const hdr = lines[i + 2];
+                    // Storey is typically at a fixed position or can be extracted
+                    // from the raw line. In raw Planbar files, storey appears
+                    // after the generic name in the middle of the line.
+                    const padded = hdr.padEnd(46);
+                    storey = padded.substring(27, 31).trim();
+                }
+                break;
+            }
         }
 
-        return result;
-    }
-
-    /**
-     * Rebuild rod line 1 preserving original spacing.
-     * We only change the Y-position field.
-     */
-    function rebuildRodLine1(original, oldParts, newParts) {
-        let result = original;
-        if (oldParts[7] !== newParts[7]) {
-            result = result.replace(oldParts[7], newParts[7]);
-        }
-        return result;
-    }
-
-    /**
-     * Main conversion function. Returns { converted, changes }.
-     */
-    function convertUniFile(content, orderName) {
-        // Detect line ending style
-        const lineEnding = content.includes('\r\n') ? '\r\n' : '\n';
-        const lines = content.split('\n');
-        const changes = { header: false, slabdate: false, rodstock: 0 };
-
-        // Pre-scan: extract element number and storey
-        const elementNum = extractElementNum(lines);
-        const storey = extractStorey(lines);
-
-        // Convert line by line
+        // --- Second pass: transform ---
         const result = [];
-        let i = 0;
-        let section = null;
+        let section = '';
         let lineInSection = 0;
-        let headerDataLineIdx = -1;
-        let headerRepeatIdx = -1;
+        let headerVersionSeen = false;
+        let slabdateDataLine = 0;
+        let i = 0;
 
         while (i < lines.length) {
-            const stripped = lines[i].replace(/\r$/, '').trim();
+            const s = lines[i].trim();
 
-            // Detect sections
-            if (stripped === 'HEADER__') { section = 'HEADER'; lineInSection = 0; }
-            else if (stripped === 'SLABDATE') { section = 'SLABDATE'; lineInSection = 0; }
-            else if (stripped === 'RODSTOCK') { section = 'RODSTOCK'; lineInSection = 0; }
-            else if (['CONTOUR_', 'CUTOUT__', 'MOUNPART', 'BRGIRDER'].includes(stripped)) {
-                section = stripped; lineInSection = 0;
-            } else if (stripped.startsWith('END')) {
-                // Keep section tracking for END lines
+            // Track section starts
+            if (s === 'HEADER__') { section = 'HEADER'; headerVersionSeen = false; lineInSection = 0; }
+            else if (s === 'SLABDATE') { section = 'SLABDATE'; slabdateDataLine = 0; }
+            else if (s === 'RODSTOCK') { section = 'RODSTOCK'; }
+            else if (s === 'CONTOUR_' || s === 'CUTOUT__' || s === 'MOUNPART' || s === 'BRGIRDER') {
+                section = s;
+            } else if (s.startsWith('END')) {
+                // Keep section for END line, reset after
             }
 
-            // === HEADER: Fix line 3 (order identification) ===
-            if (section === 'HEADER' && stripped === '610' && lineInSection === 1) {
-                result.push(lines[i]);
-                i++;
-                lineInSection++;
-
-                if (i < lines.length) {
-                    const parsed = parseHeaderLine3(lines[i]);
-                    const newLine = formatHeaderLine3(
-                        orderName,
-                        elementNum || parsed.component,
-                        storey || parsed.storey,
-                        elementNum || parsed.drawingNum,
-                        parsed.product || '00',
-                        parsed.revision
-                    );
-                    result.push(newLine + lineEnding);
-                    changes.header = true;
+            // --- HEADER fix ---
+            if (fixHeader && section === 'HEADER') {
+                if (s === '610' && !headerVersionSeen) {
+                    headerVersionSeen = true;
+                    result.push(lines[i]);
                     i++;
-                    lineInSection++;
 
-                    // Skip 3 empty lines, then fix the order name repeat (line 7)
-                    let emptyCount = 0;
-                    while (i < lines.length && emptyCount < 3) {
-                        const s = lines[i].replace(/\r$/, '').trim();
-                        if (s === '') { emptyCount++; }
-                        result.push(lines[i]);
-                        i++;
-                        lineInSection++;
-                    }
-
-                    // Line 7: repeat of order name (padded to 20 chars)
+                    // Next line is header line 3 — replace it
                     if (i < lines.length) {
-                        const oldRepeat = lines[i].replace(/\r$/, '').trim();
-                        // Check if this looks like an order name repeat (not a standard field)
-                        if (oldRepeat && !oldRepeat.includes(' ') || oldRepeat.startsWith('strop') || oldRepeat.startsWith('NSPN') || oldRepeat.startsWith('NGOM') || oldRepeat.length <= 20) {
-                            result.push(orderName.padEnd(20) + lineEnding);
+                        const order = (orderName || '').toUpperCase().padEnd(20).substring(0, 20);
+                        const comp = (elementNum || '').padEnd(5).substring(0, 5);
+                        const stor = (storey || '').padEnd(4).substring(0, 4);
+                        const draw = (elementNum || '').padEnd(8).substring(0, 8);
+                        const newLine3 = `${order} ${comp} ${stor} ${draw} 00   `;
+                        result.push(newLine3);
+                        stats.headerFixed = true;
+                        i++; // skip original line 3
+                        
+                        // Skip 3 empty/spacing lines
+                        for (let skip = 0; skip < 3 && i < lines.length; skip++) {
+                            result.push(lines[i]);
                             i++;
-                            lineInSection++;
                         }
-                    }
-                    continue;
-                }
-                continue;
-            }
-
-            // === SLABDATE: Fix zero-padding ===
-            if (section === 'SLABDATE' && lineInSection === 3) {
-                const fixed = fixSlabdateZeroPadding(lines[i]);
-                if (fixed !== lines[i]) {
-                    changes.slabdate = true;
-                }
-                result.push(fixed);
-                i++;
-                lineInSection++;
-                continue;
-            }
-
-            // === RODSTOCK: Convert format 001 → 002 ===
-            if (section === 'RODSTOCK' && stripped && !['RODSTOCK', '610', 'END'].includes(stripped)) {
-                // Check if this line starts a rod number declaration
-                const parts = stripped.split(/\s+/);
-                if (parts.length >= 3 && parts[2] === '2') {
-                    // This might be a type 2 (bent) bar
-                    const rod = parseRodFormat001(lines, i);
-                    if (rod) {
-                        const newLines = convertRod001to002(rod, lineEnding);
-                        for (const nl of newLines) {
-                            result.push(nl);
+                        
+                        // Line 7: repeat of order name — replace
+                        if (i < lines.length) {
+                            const orig7 = lines[i];
+                            // Check if this line is the name repeat (usually starts with "strop" or similar)
+                            const trimmed7 = orig7.trim();
+                            if (trimmed7 && !trimmed7.startsWith('END') && !trimmed7.match(/^\d/)) {
+                                const newLine7 = order;
+                                result.push(newLine7);
+                                i++;
+                            }
                         }
-                        i += 3; // Skip 3 original lines
-                        changes.rodstock++;
-                        lineInSection++;
                         continue;
                     }
                 }
             }
 
+            // --- SLABDATE fix ---
+            if (fixSlabdate && section === 'SLABDATE') {
+                if (s && s !== 'SLABDATE' && s !== '610' && s !== 'END') {
+                    slabdateDataLine++;
+                    // Line 2 of SLABDATE data has the zero-padding issue
+                    if (slabdateDataLine === 2) {
+                        // Pattern: "11.760 000 00          0.000" → fill empty space with 00000000
+                        const fixed = lines[i].replace(
+                            /(\d+\.\d+ \d{3} \d{2})\s{10}(\d+\.\d+)/,
+                            '$1 00000000 $2'
+                        );
+                        if (fixed !== lines[i]) {
+                            result.push(fixed);
+                            stats.slabdateFixed = true;
+                            i++;
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            // --- RODSTOCK fix ---
+            if (fixRodstock && section === 'RODSTOCK') {
+                // Detect type 2 rod (bent bar) with format 001
+                const parts = s.split(/\s+/);
+                if (parts.length >= 10 && parts[2] === '2' && /^\d{3}$/.test(parts[0])) {
+                    // This is a bent bar line. Check next lines for format 001
+                    const line2Idx = i + 1;
+                    const line3Idx = i + 2;
+                    if (line2Idx < lines.length && line3Idx < lines.length) {
+                        const line2Parts = lines[line2Idx].trim().split(/\s+/);
+                        if (line2Parts.length >= 7 && line2Parts[6] === '001') {
+                            // Parse rod data
+                            const mandrel = parseInt(line2Parts[1]);
+                            const diameter = parseInt(parts[5]);
+                            const totalLength = parseInt(parts[6]);
+                            const yPos = parseInt(parts[7]);
+                            const bendValue = parseInt(line2Parts[5]);
+                            
+                            // Parse bend line
+                            const bends = parseBendLine001(lines[line3Idx]);
+                            if (bends) {
+                                const b1 = bends.bend1;
+                                const b2 = bends.bend2;
+                                const has1 = b1.offset > 0;
+                                const has2 = b2.offset > 0;
+                                
+                                const t1 = has1 ? computeTransitionLength(b1.offset) : 0;
+                                const t2 = has2 ? computeTransitionLength(b2.offset) : 0;
+                                const l1 = has1 ? b1.length : 0;
+                                const l2 = has2 ? b2.length : 0;
+                                const o1 = has1 ? b1.offset : 0;
+                                const o2 = has2 ? b2.offset : 0;
+                                
+                                // Y-position adjustment
+                                const yAdj = Math.floor(Math.max(o1, o2) / 2);
+                                const newY = yPos + yAdj;
+                                
+                                // Rebuild rod line 1 with adjusted Y — preserve original formatting
+                                const newLine1 = lines[i].replace(
+                                    /(^\d{3} \d{3} 2 \S+\s+\d{5} \d{3} \d{5} )[+-]\d{5}/,
+                                    '$1' + signedNum(newY)
+                                );
+                                result.push(newLine1);
+                                
+                                // Rod line 2: update bend value and format
+                                const newBendVal = String(bendValue + (has1 ? b1.param : (has2 ? b2.param : 0))).padStart(5, '0');
+                                const newLine2Parts = [...line2Parts];
+                                newLine2Parts[5] = newBendVal;
+                                newLine2Parts[6] = '002';
+                                result.push(newLine2Parts.join(' '));
+                                
+                                // Polyline header
+                                result.push('000 01');
+                                
+                                // Build polyline
+                                let polyline;
+                                if (has1 && has2) {
+                                    const middle = totalLength - l1 - l2 - t1 - t2;
+                                    polyline = `01 05 ` +
+                                        `${String(l1).padStart(5,'0')} ${signedNum(-o1, 3)} ` +
+                                        `${String(t1).padStart(5,'0')} ${signedNum(o1, 3)} ` +
+                                        `${String(middle).padStart(5,'0')} ${signedNum(o2, 3)} ` +
+                                        `${String(t2).padStart(5,'0')} ${signedNum(-o2, 3)} ` +
+                                        `${String(l2).padStart(5,'0')} +000`;
+                                } else if (has2) {
+                                    // Bend only at end
+                                    const middle = totalLength - l2 - t2;
+                                    polyline = `01 03 ` +
+                                        `${String(middle).padStart(5,'0')} ${signedNum(o2, 3)} ` +
+                                        `${String(t2).padStart(5,'0')} ${signedNum(-o2, 3)} ` +
+                                        `${String(l2).padStart(5,'0')} +000`;
+                                } else if (has1) {
+                                    // Bend only at start
+                                    const middle = totalLength - l1 - t1;
+                                    polyline = `01 03 ` +
+                                        `${String(l1).padStart(5,'0')} ${signedNum(-o1, 3)} ` +
+                                        `${String(t1).padStart(5,'0')} ${signedNum(o1, 3)} ` +
+                                        `${String(middle).padStart(5,'0')} +000`;
+                                }
+                                
+                                result.push(polyline);
+                                stats.rodsConverted++;
+                                i += 3; // skip original 3 lines
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Default: pass through
             result.push(lines[i]);
             i++;
-            lineInSection++;
         }
 
-        return {
-            converted: result.join('\n'),
-            changes
-        };
+        // Rejoin with \r\n (Unitechnik standard)
+        const output = result.join('\r\n');
+        return { content: output, stats };
     }
 
-    // ========== CONVERSION UI ==========
+    // ============================================================
+    //  CONVERT & DOWNLOAD
+    // ============================================================
 
-    convertBtn.addEventListener('click', async () => {
-        const orderName = document.getElementById('orderName').value.trim().toUpperCase();
+    $convertBtn.addEventListener('click', async () => {
+        clearLog();
+        const orderName = $orderName.value.trim();
+        
         if (!orderName) {
-            alert('Podaj nazwę zamówienia / projektu');
-            return;
-        }
-        if (uploadedFiles.length === 0) {
-            alert('Dodaj pliki do konwersji');
+            log('⚠️  Podaj nazwę zamówienia!', 'warn');
+            $orderName.focus();
             return;
         }
 
-        // Reset
-        logEl.innerHTML = '';
-        results.classList.add('show');
-        convertBtn.disabled = true;
-        convertBtn.textContent = '⏳ Konwertowanie...';
+        const options = {
+            fixHeader: document.getElementById('fixHeader').checked,
+            fixSlabdate: document.getElementById('fixSlabdate').checked,
+            fixRodstock: document.getElementById('fixRodstock').checked
+        };
 
-        const zip = new JSZip();
-        let totalFiles = 0;
-        let headerChanges = 0;
-        let slabdateChanges = 0;
-        let rodstockChanges = 0;
+        log(`Rozpoczynam konwersję ${state.files.size} plików...`, 'info');
+        log(`Zamówienie: ${orderName.toUpperCase()}`, 'info');
+        log(`Poprawki: Nagłówek=${options.fixHeader ? 'TAK' : 'NIE'}, SLABDATE=${options.fixSlabdate ? 'TAK' : 'NIE'}, RODSTOCK=${options.fixRodstock ? 'TAK' : 'NIE'}`, 'info');
+        log('─'.repeat(60));
 
-        log(`Rozpoczynam konwersję ${uploadedFiles.length} plików...`, 'info');
-        log(`Nazwa zamówienia: ${orderName}`, 'info');
-        log('─'.repeat(50));
+        state.converted.clear();
+        let totalHeaders = 0, totalSlabdate = 0, totalRods = 0, errors = 0;
 
-        // Small delay for UI update
-        await new Promise(r => setTimeout(r, 50));
-
-        for (const file of uploadedFiles) {
+        for (const [filename, content] of state.files) {
             try {
-                const { converted, changes } = convertUniFile(file.content, orderName);
-                zip.file(file.name, converted);
-                totalFiles++;
+                const { content: converted, stats } = convertUniFile(content, orderName, options);
+                state.converted.set(filename, converted);
 
-                let changeLog = [];
-                if (changes.header) { changeLog.push('nagłówek'); headerChanges++; }
-                if (changes.slabdate) { changeLog.push('SLABDATE'); slabdateChanges++; }
-                if (changes.rodstock > 0) { changeLog.push(`${changes.rodstock}× zbrojenie`); rodstockChanges += changes.rodstock; }
+                const changes = [];
+                if (stats.headerFixed) { changes.push('HEADER'); totalHeaders++; }
+                if (stats.slabdateFixed) { changes.push('SLABDATE'); totalSlabdate++; }
+                if (stats.rodsConverted > 0) { changes.push(`RODSTOCK(${stats.rodsConverted})`); totalRods += stats.rodsConverted; }
 
-                if (changeLog.length > 0) {
-                    log(`✅ ${file.name} → ${changeLog.join(', ')}`, 'success');
+                if (changes.length > 0) {
+                    log(`✅ ${filename} → ${changes.join(', ')}`, 'ok');
                 } else {
-                    log(`⚠️ ${file.name} → brak zmian (brak rozpoznanych wzorców Planbar)`, 'warn');
+                    log(`⚪ ${filename} → brak zmian`, '');
                 }
-            } catch (err) {
-                log(`❌ ${file.name} → błąd: ${err.message}`, 'error');
+            } catch (e) {
+                log(`❌ ${filename} → BŁĄD: ${e.message}`, 'err');
+                errors++;
             }
         }
 
-        log('─'.repeat(50));
-        log(`Konwersja zakończona: ${totalFiles}/${uploadedFiles.length} plików`, 'success');
+        log('─'.repeat(60));
+        log(`Zakończono: ${state.converted.size} plików przetworzonych, ${errors} błędów.`, errors ? 'warn' : 'ok');
 
-        // Summary
-        summaryEl.innerHTML = `
-            <div class="summary-item">
-                <div class="value">${totalFiles}</div>
-                <div class="label">Plików skonwertowanych</div>
-            </div>
-            <div class="summary-item">
-                <div class="value">${headerChanges}</div>
-                <div class="label">Nagłówków poprawionych</div>
-            </div>
-            <div class="summary-item">
-                <div class="value">${slabdateChanges}</div>
-                <div class="label">SLABDATE poprawionych</div>
-            </div>
-            <div class="summary-item">
-                <div class="value">${rodstockChanges}</div>
-                <div class="label">Prętów skonwertowanych</div>
-            </div>
+        // Build ZIP
+        const zip = new JSZip();
+        for (const [name, content] of state.converted) {
+            zip.file(name, content);
+        }
+        state.zipBlob = await zip.generateAsync({ type: 'blob' });
+
+        // Show stats
+        $stats.innerHTML = `
+            <div class="stat-box"><div class="num">${state.converted.size}</div><div class="label">plików</div></div>
+            <div class="stat-box"><div class="num">${totalHeaders}</div><div class="label">nagłówków</div></div>
+            <div class="stat-box"><div class="num">${totalSlabdate}</div><div class="label">SLABDATE</div></div>
+            <div class="stat-box"><div class="num">${totalRods}</div><div class="label">prętów giętych</div></div>
         `;
-
-        // Generate ZIP
-        convertedZip = await zip.generateAsync({ type: 'blob' });
-        convertBtn.textContent = '⚙️ Konwertuj pliki';
-        convertBtn.disabled = false;
+        $resultArea.classList.add('active');
     });
 
-    downloadBtn.addEventListener('click', () => {
-        if (!convertedZip) return;
-        const orderName = document.getElementById('orderName').value.trim().toUpperCase() || 'converted';
+    $downloadBtn.addEventListener('click', () => {
+        if (!state.zipBlob) return;
+        const orderName = $orderName.value.trim().toUpperCase() || 'converted';
         const a = document.createElement('a');
-        a.href = URL.createObjectURL(convertedZip);
+        a.href = URL.createObjectURL(state.zipBlob);
         a.download = `${orderName}_unitechnik.zip`;
         a.click();
         URL.revokeObjectURL(a.href);
+        log(`⬇️ Pobrano: ${orderName}_unitechnik.zip`, 'ok');
     });
+
     </script>
 </body>
 </html>
