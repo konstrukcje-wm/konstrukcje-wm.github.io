@@ -902,10 +902,10 @@
             border-color: var(--gold);
             background: rgba(201, 169, 110, 0.1);
         }
-        .mobile-lang-switch { display: none !important; }
+        li.mobile-lang-switch { display: none !important; }
         @media (max-width: 768px) {
             .lang-switcher { display: none !important; }
-            .mobile-lang-switch { display: flex !important; }
+            li.mobile-lang-switch { display: flex !important; gap: 12px; margin-top: 16px; }
         }
     </style>
 </head>
@@ -927,10 +927,10 @@
             <li><a href="#services" onclick="closeMenu()">Services</a></li>
             <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
             <li><a href="#contact" onclick="closeMenu()" class="nav-cta">Contact</a></li>
-            <li class="mobile-lang-switch" style="display: flex; gap: 12px; margin-top: 16px;">
-                <a href="/" style="">🇵🇱 PL</a>
+            <li class="mobile-lang-switch">
+                <a href="/">🇵🇱 PL</a>
                 <a href="/en/" style="color: var(--gold) !important;">🇬🇧 EN</a>
-                <a href="/de/" style="">🇩🇪 DE</a>
+                <a href="/de/">🇩🇪 DE</a>
             </li>
         </ul>
         <div class="lang-switcher">

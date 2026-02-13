@@ -902,10 +902,10 @@
             border-color: var(--gold);
             background: rgba(201, 169, 110, 0.1);
         }
-        .mobile-lang-switch { display: none !important; }
+        li.mobile-lang-switch { display: none !important; }
         @media (max-width: 768px) {
             .lang-switcher { display: none !important; }
-            .mobile-lang-switch { display: flex !important; }
+            li.mobile-lang-switch { display: flex !important; gap: 12px; margin-top: 16px; }
         }
     </style>
 </head>
@@ -927,9 +927,9 @@
             <li><a href="#leistungen" onclick="closeMenu()">Leistungen</a></li>
             <li><a href="#projekte" onclick="closeMenu()">Projekte</a></li>
             <li><a href="#kontakt-de" onclick="closeMenu()" class="nav-cta">Kontakt</a></li>
-            <li class="mobile-lang-switch" style="display: flex; gap: 12px; margin-top: 16px;">
-                <a href="/" style="">🇵🇱 PL</a>
-                <a href="/en/" style="">🇬🇧 EN</a>
+            <li class="mobile-lang-switch">
+                <a href="/">🇵🇱 PL</a>
+                <a href="/en/">🇬🇧 EN</a>
                 <a href="/de/" style="color: var(--gold) !important;">🇩🇪 DE</a>
             </li>
         </ul>
