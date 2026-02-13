@@ -902,6 +902,11 @@
             border-color: var(--gold);
             background: rgba(201, 169, 110, 0.1);
         }
+        .mobile-lang-switch { display: none !important; }
+        @media (max-width: 768px) {
+            .lang-switcher { display: none !important; }
+            .mobile-lang-switch { display: flex !important; }
+        }
     </style>
 </head>
 <body>
