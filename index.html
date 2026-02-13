@@ -608,7 +608,7 @@
             object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .project-card:hover .project-image { transform: scale(1.08); }
+        .project-card:hover .carousel-slide img { transform: scale(1.08); }
         .project-image-overlay {
             position: absolute;
             inset: 0;
@@ -662,6 +662,76 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+        /* ---- Project Carousel ---- */
+        .project-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+            height: 100%;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .project-image-wrapper:hover .carousel-btn { opacity: 1; }
+        .carousel-btn:hover { background: rgba(0,0,0,0.75); }
+        .carousel-btn.prev { left: 8px; }
+        .carousel-btn.next { right: 8px; }
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .project-image-wrapper:hover .carousel-dots { opacity: 1; }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.2s;
+        }
+        .carousel-dot.active { background: #fff; }
+
         
         /* ========== CONTACT ========== */
         .contact {
@@ -1112,7 +1182,21 @@
         <div class="projects-grid">
             <div class="project-card reveal" style="transition-delay: 0.1s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B8.jpg" alt="Kv Babord, Malmö" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B1.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B2.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B3.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B4.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B5.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B6.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B7.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/B8.jpg" alt="Kv Babord, Malmö" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button><button class="carousel-dot" aria-label="Slide 6"></button><button class="carousel-dot" aria-label="Slide 7"></button><button class="carousel-dot" aria-label="Slide 8"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇸🇪 Szwecja</span>
                 </div>
@@ -1128,7 +1212,19 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.2s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/G6.jpg" alt="Kv Giffeln, Örebro" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/G1.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/g2.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/g3.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/G4.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/G5.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/G6.jpg" alt="Kv Giffeln, Örebro" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button><button class="carousel-dot" aria-label="Slide 6"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇸🇪 Szwecja</span>
                 </div>
@@ -1144,7 +1240,19 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.3s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/budowa.jpg" alt="IKEA, Kopenhaga" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/budowa.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/I1.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/I2.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/I3.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/I4.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/I5.jpg" alt="IKEA, Kopenhaga" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button><button class="carousel-dot" aria-label="Slide 6"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇩🇰 Dania</span>
                 </div>
@@ -1160,7 +1268,17 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.4s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/F4.jpeg" alt="Formee, Międzyrzecz" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/F1.jpg" alt="Formee, Międzyrzecz" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/F2.jpg" alt="Formee, Międzyrzecz" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/F3.jpg" alt="Formee, Międzyrzecz" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/F4.jpeg" alt="Formee, Międzyrzecz" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇵🇱 Polska</span>
                 </div>
@@ -1176,7 +1294,19 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.5s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s6.jpg" alt="Budynek, Słupsk" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s1.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s2.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s3.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s4.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s5.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/s6.jpg" alt="Budynek, Słupsk" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button><button class="carousel-dot" aria-label="Slide 6"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇵🇱 Polska</span>
                 </div>
@@ -1191,7 +1321,18 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.6s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/l5-1.jpg" alt="Kamienica, Legnica" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/L1.png" alt="Kamienica, Legnica" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/l2-1.jpg" alt="Kamienica, Legnica" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/L3-1.jpg" alt="Kamienica, Legnica" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/l4-1.jpg" alt="Kamienica, Legnica" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/l5-1.jpg" alt="Kamienica, Legnica" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇵🇱 Polska</span>
                 </div>
@@ -1207,7 +1348,20 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.7s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H7.jpg" alt="Sokółka Zielenisz, Gdynia" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H1.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H2.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H3.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H4.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H5.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H6.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/H7.jpg" alt="Sokółka Zielenisz, Gdynia" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button><button class="carousel-dot" aria-label="Slide 5"></button><button class="carousel-dot" aria-label="Slide 6"></button><button class="carousel-dot" aria-label="Slide 7"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇵🇱 Polska</span>
                 </div>
@@ -1223,7 +1377,17 @@
             </div>
             <div class="project-card reveal" style="transition-delay: 0.8s;">
                 <div class="project-image-wrapper">
-                    <img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/K4.jpg" alt="Galeria handlowa, Krotoszyn" class="project-image" loading="lazy">
+                    <div class="project-carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/K1.jpg" alt="Galeria handlowa, Krotoszyn" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/K2.jpg" alt="Galeria handlowa, Krotoszyn" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/K3.jpg" alt="Galeria handlowa, Krotoszyn" loading="lazy"></div>
+                            <div class="carousel-slide"><img src="http://konstrukcje-wm.pl/wp-content/uploads/2023/04/K4.jpg" alt="Galeria handlowa, Krotoszyn" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+                    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
+                    <div class="carousel-dots"><button class="carousel-dot active" aria-label="Slide 1"></button><button class="carousel-dot" aria-label="Slide 2"></button><button class="carousel-dot" aria-label="Slide 3"></button><button class="carousel-dot" aria-label="Slide 4"></button></div>
                     <div class="project-image-overlay"></div>
                     <span class="project-location">🇵🇱 Polska</span>
                 </div>
@@ -1455,5 +1619,48 @@ const heroObserver = new IntersectionObserver((entries) => {
 heroObserver.observe(document.querySelector('.hero-stats'));
 </script>
 
+
+<script>
+    // ---- Project Carousel ----
+    document.querySelectorAll('.project-carousel').forEach(carousel => {
+        const track = carousel.querySelector('.carousel-track');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const dots = carousel.parentElement.querySelectorAll('.carousel-dot');
+        const total = slides.length;
+        let current = 0;
+        
+        function goTo(i) {
+            current = (i + total) % total;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+        }
+        
+        carousel.parentElement.querySelector('.carousel-btn.prev')?.addEventListener('click', e => {
+            e.stopPropagation();
+            goTo(current - 1);
+        });
+        carousel.parentElement.querySelector('.carousel-btn.next')?.addEventListener('click', e => {
+            e.stopPropagation();
+            goTo(current + 1);
+        });
+        
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', e => {
+                e.stopPropagation();
+                goTo(idx);
+            });
+        });
+        
+        // Touch/swipe support
+        let startX = 0, isDragging = false;
+        carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; });
+        carousel.addEventListener('touchend', e => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > 40) goTo(current + (diff < 0 ? 1 : -1));
+        });
+    });
+</script>
 </body>
 </html>
