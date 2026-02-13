@@ -870,38 +870,6 @@
             .projects-header { flex-direction: column; gap: 16px; align-items: flex-start; }
             .footer-grid { grid-template-columns: 1fr; }
         }
-
-        /* ========== LANGUAGE SWITCHER ========== */
-        .lang-switcher {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-left: 16px;
-        }
-        .lang-switcher a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 24px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            letter-spacing: 0.5px;
-        }
-        .lang-switcher a:hover {
-            color: var(--text-primary);
-            border-color: var(--dark-border);
-        }
-        .lang-switcher a.active {
-            color: var(--gold);
-            border-color: var(--gold);
-            background: rgba(201, 169, 110, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -922,17 +890,7 @@
             <li><a href="#oferta" onclick="closeMenu()">Oferta</a></li>
             <li><a href="#projekty" onclick="closeMenu()">Projekty</a></li>
             <li><a href="#kontakt" onclick="closeMenu()" class="nav-cta">Kontakt</a></li>
-            <li class="mobile-lang-switch" style="display: flex; gap: 12px; margin-top: 16px;">
-                <a href="/" style="color: var(--gold) !important;">🇵🇱 PL</a>
-                <a href="/en/" style="">🇬🇧 EN</a>
-                <a href="/de/" style="">🇩🇪 DE</a>
-            </li>
         </ul>
-        <div class="lang-switcher">
-                <a href="/" class="active">PL</a>
-                <a href="/en/">EN</a>
-                <a href="/de/">DE</a>
-            </div>
         <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
@@ -1020,7 +978,12 @@
                         </div>
                         <span>Technologia BIM</span>
                     </div>
-
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                        </div>
+                        <span>Pliki .pxml / .uni</span>
+                    </div>
                 </div>
                 
                 <div class="about-languages" style="margin-top: 28px;">
