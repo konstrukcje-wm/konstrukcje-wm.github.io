@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konwerter Unitechnik | Konstrukcje WM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --success: #38a169;
+            --error: #e53e3e;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.7rem;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h2 .step {
+            background: var(--accent);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group .hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .dropzone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: var(--accent);
+            background: #ebf8ff;
+        }
+
+        .dropzone .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dropzone p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .dropzone .browse {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .file-list {
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .file-item .name { flex: 1; font-weight: 500; }
+        .file-item .size { color: var(--text-light); }
+        .file-item .remove {
+            cursor: pointer;
+            color: var(--error);
+            font-weight: 600;
+            padding: 0 0.25rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-light);
+        }
+
+        .btn-primary:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .log {
+            background: #1a202c;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .log .info { color: #63b3ed; }
+        .log .success { color: #68d391; }
+        .log .warn { color: #f6e05e; }
+        .log .error { color: #fc8181; }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .summary-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .summary-item .label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.2rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .inline-inputs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .inline-inputs .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 1rem; }
+            .card { padding: 1.25rem; }
+            .header { padding: 1rem; }
+            .header h1 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">KWM</div>
+        <div>
+            <h1>Konwerter Unitechnik</h1>
+            <p>Konwersja plików .uni z Planbara do standardu Unitechnik CAD-CAM</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Step 1: Settings -->
+        <div class="card">
+            <h2><span class="step">1</span> Ustawienia</h2>
+            <div class="inline-inputs">
+                <div class="form-group">
+                    <label for="orderName">Nazwa zamówienia / projektu</label>
+                    <div class="hint">np. NSPN, NGOM — max 20 znaków, bez spacji</div>
+                    <input type="text" id="orderName" placeholder="np. NSPN" maxlength="20">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Upload -->
+        <div class="card">
+            <h2><span class="step">2</span> Pliki do konwersji</h2>
+            <div class="dropzone" id="dropzone">
+                <div class="icon">📁</div>
+                <p>Przeciągnij pliki <strong>.uni</strong> lub <strong>.zip</strong> tutaj</p>
+                <p>lub <span class="browse">wybierz z dysku</span></p>
+            </div>
+            <input type="file" id="fileInput" multiple accept=".uni,.zip" style="display:none">
+            <div class="file-list" id="fileList"></div>
+        </div>
+
+        <!-- Step 3: Convert -->
+        <div class="card">
+            <h2><span class="step">3</span> Konwertuj</h2>
+            <button class="btn btn-primary" id="convertBtn" disabled>
+                ⚙️ Konwertuj pliki
+            </button>
+        </div>
+
+        <!-- Results -->
+        <div class="card results" id="results">
+            <h2>📊 Wyniki konwersji</h2>
+            <div class="summary" id="summary"></div>
+            <button class="btn btn-success" id="downloadBtn">
+                ⬇️ Pobierz skonwertowane pliki (.zip)
+            </button>
+            <div style="margin-top:1rem;">
+                <details>
+                    <summary style="cursor:pointer; font-weight:500; font-size:0.9rem;">📋 Szczegółowy log</summary>
+                    <div class="log" id="log" style="margin-top:0.5rem;"></div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Konstrukcje WM &bull; Konwerter Unitechnik v1.0
+    </div>
+
+    <script>
+    // ========== FILE MANAGEMENT ==========
+    let uploadedFiles = []; // {name, content}
+    let convertedZip = null;
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const convertBtn = document.getElementById('convertBtn');
+    const results = document.getElementById('results');
+    const logEl = document.getElementById('log');
+    const summaryEl = document.getElementById('summary');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+    async function handleFiles(files) {
+        for (const file of files) {
+            if (file.name.endsWith('.zip')) {
+                const zip = await JSZip.loadAsync(file);
+                for (const [path, zipEntry] of Object.entries(zip.files)) {
+                    if (!zipEntry.dir && (path.endsWith('.uni') || /\.\d{3}$/.test(path))) {
+                        const content = await zipEntry.async('string');
+                        const name = path.split('/').pop();
+                        if (!uploadedFiles.find(f => f.name === name)) {
+                            uploadedFiles.push({ name, content });
+                        }
+                    }
+                }
+            } else if (file.name.endsWith('.uni') || /\.\d{3}$/.test(file.name)) {
+                const content = await file.text();
+                if (!uploadedFiles.find(f => f.name === file.name)) {
+                    uploadedFiles.push({ name: file.name, content });
+                }
+            }
+        }
+        renderFileList();
+        updateConvertBtn();
+    }
+
+    function renderFileList() {
+        fileList.innerHTML = uploadedFiles.map((f, i) => `
+            <div class="file-item">
+                <span>📄</span>
+                <span class="name">${f.name}</span>
+                <span class="size">${(f.content.length / 1024).toFixed(1)} KB</span>
+                <span class="remove" onclick="removeFile(${i})">✕</span>
+            </div>
+        `).join('');
+    }
+
+    function removeFile(idx) {
+        uploadedFiles.splice(idx, 1);
+        renderFileList();
+        updateConvertBtn();
+    }
+
+    function updateConvertBtn() {
+        convertBtn.disabled = uploadedFiles.length === 0;
+    }
+
+    // ========== CONVERTER CORE ==========
+
+    function log(msg, type = 'info') {
+        logEl.innerHTML += `<div class="${type}">${msg}</div>`;
+        logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    /**
+     * Parse header line 3 fields by position.
+     * Format: aaaaaaaaaaaaaaaaaaaa bbbbb cccc dddddddd 11 ee
+     *         1-20                22-26  28-31 33-40   42-43 45-46
+     */
+    function parseHeaderLine3(line) {
+        const padded = line.replace(/[\r\n]+$/, '').padEnd(46);
+        return {
+            order: padded.substring(0, 20).trim(),
+            component: padded.substring(21, 26).trim(),
+            storey: padded.substring(27, 31).trim(),
+            drawingNum: padded.substring(32, 40).trim(),
+            product: padded.substring(41, 43).trim(),
+            revision: padded.substring(44, 46).trim(),
+        };
+    }
+
+    function formatHeaderLine3(order, component, storey, drawingNum, product = '00', revision = '') {
+        return (
+            order.padEnd(20) + ' ' +
+            component.padEnd(5) + ' ' +
+            storey.padEnd(4) + ' ' +
+            drawingNum.padEnd(8) + ' ' +
+            product.padEnd(2) + ' ' +
+            revision.padEnd(2)
+        ).replace(/\s+$/, '') + '   ';
+    }
+
+    /**
+     * Extract element number from SLABDATE section.
+     */
+    function extractElementNum(lines) {
+        let inSlabdate = false;
+        for (const line of lines) {
+            const s = line.trim();
+            if (s === 'SLABDATE') { inSlabdate = true; continue; }
+            if (inSlabdate && s && s !== '610') {
+                return s.split(/\s+/)[0];
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Extract storey from raw header.
+     */
+    function extractStorey(lines) {
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim() === 'HEADER__' && i + 2 < lines.length) {
+                const parsed = parseHeaderLine3(lines[i + 2]);
+                return parsed.storey;
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Fix zero-padding in SLABDATE dimension line.
+     * Raw:   "11.760 000 00          0.000 ..."
+     * Fixed: "11.760 000 00 00000000 0.000 ..."
+     */
+    function fixSlabdateZeroPadding(line) {
+        return line.replace(
+            /(\d+\.\d+ \d{3} \d{2}) {10}(\d+\.\d+)/,
+            '$1 00000000 $2'
+        );
+    }
+
+    /**
+     * Compute transition length for bent bar polyline.
+     * Based on known examples: offset=40 → transition=93
+     * Uses ratio-based formula for other offsets.
+     */
+    function computeTransition(offset) {
+        if (offset <= 0) return 0;
+        // Known calibration: offset 40 → transition 93
+        return Math.round(offset * 93.0 / 40.0);
+    }
+
+    /**
+     * Parse format 001 bent bar data.
+     * Returns null if not a format 001 bent bar.
+     */
+    function parseRodFormat001(lines, idx) {
+        if (idx + 2 >= lines.length) return null;
+
+        const line1 = lines[idx].trim();
+        const parts1 = line1.split(/\s+/);
+        if (parts1.length < 11 || parts1[2] !== '2') return null; // Not shape type 2 (bent)
+
+        const line2 = lines[idx + 1].trim();
+        const parts2 = line2.split(/\s+/);
+        if (parts2.length < 7 || parts2[6] !== '001') return null; // Not format 001
+
+        const line3 = lines[idx + 2].trim();
+        const parts3 = line3.split(/\s+/);
+        if (parts3.length < 13) return null;
+
+        return {
+            line1raw: lines[idx],
+            parts1,
+            diameter: parseInt(parts1[5]),
+            length: parseInt(parts1[6]),
+            yPos: parseInt(parts1[7]),
+            mandrel: parseInt(parts2[1]),
+            bendValue: parseInt(parts2[5]),
+            line2parts: parts2,
+            line2raw: lines[idx + 1],
+            bend1: {
+                type: parseInt(parts3[0]),
+                length: parseInt(parts3[1]),
+                param: parseInt(parts3[4]),
+                offset: parseInt(parts3[5]),
+            },
+            bend2: {
+                type: parseInt(parts3[6]),
+                length: parseInt(parts3[7]),
+                param: parseInt(parts3[10]),
+                offset: parseInt(parts3[11]),
+            },
+            bendDirection: parts3[12],
+        };
+    }
+
+    /**
+     * Format a number with sign and zero-padding.
+     * e.g., formatSigned(5, -202) → "-00202"
+     */
+    function formatSigned(width, value) {
+        const sign = value >= 0 ? '+' : '-';
+        return sign + Math.abs(value).toString().padStart(width - 1, '0');
+    }
+
+    function formatUnsigned(width, value) {
+        return Math.abs(value).toString().padStart(width, '0');
+    }
+
+    /**
+     * Convert a bent bar from format 001 to format 002.
+     * Returns array of replacement lines (with \r\n).
+     */
+    function convertRod001to002(rod, lineEnding) {
+        const { bend1, bend2, mandrel, diameter, length: totalLen } = rod;
+        const hasBend1 = bend1.offset > 0;
+        const hasBend2 = bend2.offset > 0;
+
+        const trans1 = hasBend1 ? computeTransition(bend1.offset) : 0;
+        const trans2 = hasBend2 ? computeTransition(bend2.offset) : 0;
+        const l1 = hasBend1 ? bend1.length : 0;
+        const l2 = hasBend2 ? bend2.length : 0;
+        const o1 = hasBend1 ? bend1.offset : 0;
+        const o2 = hasBend2 ? bend2.offset : 0;
+
+        // === Line 1: Fix Y-position ===
+        let newLine1 = rod.line1raw;
+        if (hasBend1 || hasBend2) {
+            const yAdj = Math.floor(Math.max(o1, o2) / 2);
+            const newY = rod.yPos + yAdj;
+            // Replace Y-pos in original line (preserve formatting)
+            const oldYStr = rod.parts1[7];
+            const newYStr = formatSigned(oldYStr.length, newY);
+            // Find and replace only the Y-position field in line 1
+            const parts = rod.parts1.slice();
+            parts[7] = newYStr;
+            // Rebuild line preserving original spacing pattern
+            newLine1 = rebuildRodLine1(rod.line1raw, rod.parts1, parts);
+        }
+
+        // === Line 2: Update bend value and format ===
+        const newBendValue = rod.bendValue + (hasBend1 ? bend1.param : bend2.param);
+        const parts2 = rod.line2parts.slice();
+        parts2[5] = formatUnsigned(5, newBendValue);
+        parts2[6] = '002';
+        const newLine2 = parts2.join(' ');
+
+        // === Lines 3-4: Build polyline ===
+        const result = [newLine1.replace(/[\r\n]+$/, '') + lineEnding, newLine2 + lineEnding];
+
+        if (hasBend1 && hasBend2) {
+            const middle = totalLen - l1 - l2 - trans1 - trans2;
+            result.push('000 01' + lineEnding);
+            result.push(
+                '01 05 ' +
+                formatUnsigned(5, l1) + ' ' + formatSigned(4, -o1) + ' ' +
+                formatUnsigned(5, trans1) + ' ' + formatSigned(4, o1) + ' ' +
+                formatUnsigned(5, middle) + ' ' + formatSigned(4, o2) + ' ' +
+                formatUnsigned(5, trans2) + ' ' + formatSigned(4, -o2) + ' ' +
+                formatUnsigned(5, l2) + ' +000' + lineEnding
+            );
+        } else if (hasBend1) {
+            const middle = totalLen - l1 - trans1;
+            result.push('000 01' + lineEnding);
+            result.push(
+                '01 03 ' +
+                formatUnsigned(5, l1) + ' ' + formatSigned(4, -o1) + ' ' +
+                formatUnsigned(5, trans1) + ' ' + formatSigned(4, o1) + ' ' +
+                formatUnsigned(5, middle) + ' +000' + lineEnding
+            );
+        } else if (hasBend2) {
+            const middle = totalLen - l2 - trans2;
+            result.push('000 01' + lineEnding);
+            result.push(
+                '01 03 ' +
+                formatUnsigned(5, middle) + ' ' + formatSigned(4, o2) + ' ' +
+                formatUnsigned(5, trans2) + ' ' + formatSigned(4, -o2) + ' ' +
+                formatUnsigned(5, l2) + ' +000' + lineEnding
+            );
+        }
+
+        return result;
+    }
+
+    /**
+     * Rebuild rod line 1 preserving original spacing.
+     * We only change the Y-position field.
+     */
+    function rebuildRodLine1(original, oldParts, newParts) {
+        let result = original;
+        if (oldParts[7] !== newParts[7]) {
+            result = result.replace(oldParts[7], newParts[7]);
+        }
+        return result;
+    }
+
+    /**
+     * Main conversion function. Returns { converted, changes }.
+     */
+    function convertUniFile(content, orderName) {
+        // Detect line ending style
+        const lineEnding = content.includes('\r\n') ? '\r\n' : '\n';
+        const lines = content.split('\n');
+        const changes = { header: false, slabdate: false, rodstock: 0 };
+
+        // Pre-scan: extract element number and storey
+        const elementNum = extractElementNum(lines);
+        const storey = extractStorey(lines);
+
+        // Convert line by line
+        const result = [];
+        let i = 0;
+        let section = null;
+        let lineInSection = 0;
+        let headerDataLineIdx = -1;
+        let headerRepeatIdx = -1;
+
+        while (i < lines.length) {
+            const stripped = lines[i].replace(/\r$/, '').trim();
+
+            // Detect sections
+            if (stripped === 'HEADER__') { section = 'HEADER'; lineInSection = 0; }
+            else if (stripped === 'SLABDATE') { section = 'SLABDATE'; lineInSection = 0; }
+            else if (stripped === 'RODSTOCK') { section = 'RODSTOCK'; lineInSection = 0; }
+            else if (['CONTOUR_', 'CUTOUT__', 'MOUNPART', 'BRGIRDER'].includes(stripped)) {
+                section = stripped; lineInSection = 0;
+            } else if (stripped.startsWith('END')) {
+                // Keep section tracking for END lines
+            }
+
+            // === HEADER: Fix line 3 (order identification) ===
+            if (section === 'HEADER' && stripped === '610' && lineInSection === 1) {
+                result.push(lines[i]);
+                i++;
+                lineInSection++;
+
+                if (i < lines.length) {
+                    const parsed = parseHeaderLine3(lines[i]);
+                    const newLine = formatHeaderLine3(
+                        orderName,
+                        elementNum || parsed.component,
+                        storey || parsed.storey,
+                        elementNum || parsed.drawingNum,
+                        parsed.product || '00',
+                        parsed.revision
+                    );
+                    result.push(newLine + lineEnding);
+                    changes.header = true;
+                    i++;
+                    lineInSection++;
+
+                    // Skip 3 empty lines, then fix the order name repeat (line 7)
+                    let emptyCount = 0;
+                    while (i < lines.length && emptyCount < 3) {
+                        const s = lines[i].replace(/\r$/, '').trim();
+                        if (s === '') { emptyCount++; }
+                        result.push(lines[i]);
+                        i++;
+                        lineInSection++;
+                    }
+
+                    // Line 7: repeat of order name (padded to 20 chars)
+                    if (i < lines.length) {
+                        const oldRepeat = lines[i].replace(/\r$/, '').trim();
+                        // Check if this looks like an order name repeat (not a standard field)
+                        if (oldRepeat && !oldRepeat.includes(' ') || oldRepeat.startsWith('strop') || oldRepeat.startsWith('NSPN') || oldRepeat.startsWith('NGOM') || oldRepeat.length <= 20) {
+                            result.push(orderName.padEnd(20) + lineEnding);
+                            i++;
+                            lineInSection++;
+                        }
+                    }
+                    continue;
+                }
+                continue;
+            }
+
+            // === SLABDATE: Fix zero-padding ===
+            if (section === 'SLABDATE' && lineInSection === 3) {
+                const fixed = fixSlabdateZeroPadding(lines[i]);
+                if (fixed !== lines[i]) {
+                    changes.slabdate = true;
+                }
+                result.push(fixed);
+                i++;
+                lineInSection++;
+                continue;
+            }
+
+            // === RODSTOCK: Convert format 001 → 002 ===
+            if (section === 'RODSTOCK' && stripped && !['RODSTOCK', '610', 'END'].includes(stripped)) {
+                // Check if this line starts a rod number declaration
+                const parts = stripped.split(/\s+/);
+                if (parts.length >= 3 && parts[2] === '2') {
+                    // This might be a type 2 (bent) bar
+                    const rod = parseRodFormat001(lines, i);
+                    if (rod) {
+                        const newLines = convertRod001to002(rod, lineEnding);
+                        for (const nl of newLines) {
+                            result.push(nl);
+                        }
+                        i += 3; // Skip 3 original lines
+                        changes.rodstock++;
+                        lineInSection++;
+                        continue;
+                    }
+                }
+            }
+
+            result.push(lines[i]);
+            i++;
+            lineInSection++;
+        }
+
+        return {
+            converted: result.join('\n'),
+            changes
+        };
+    }
+
+    // ========== CONVERSION UI ==========
+
+    convertBtn.addEventListener('click', async () => {
+        const orderName = document.getElementById('orderName').value.trim().toUpperCase();
+        if (!orderName) {
+            alert('Podaj nazwę zamówienia / projektu');
+            return;
+        }
+        if (uploadedFiles.length === 0) {
+            alert('Dodaj pliki do konwersji');
+            return;
+        }
+
+        // Reset
+        logEl.innerHTML = '';
+        results.classList.add('show');
+        convertBtn.disabled = true;
+        convertBtn.textContent = '⏳ Konwertowanie...';
+
+        const zip = new JSZip();
+        let totalFiles = 0;
+        let headerChanges = 0;
+        let slabdateChanges = 0;
+        let rodstockChanges = 0;
+
+        log(`Rozpoczynam konwersję ${uploadedFiles.length} plików...`, 'info');
+        log(`Nazwa zamówienia: ${orderName}`, 'info');
+        log('─'.repeat(50));
+
+        // Small delay for UI update
+        await new Promise(r => setTimeout(r, 50));
+
+        for (const file of uploadedFiles) {
+            try {
+                const { converted, changes } = convertUniFile(file.content, orderName);
+                zip.file(file.name, converted);
+                totalFiles++;
+
+                let changeLog = [];
+                if (changes.header) { changeLog.push('nagłówek'); headerChanges++; }
+                if (changes.slabdate) { changeLog.push('SLABDATE'); slabdateChanges++; }
+                if (changes.rodstock > 0) { changeLog.push(`${changes.rodstock}× zbrojenie`); rodstockChanges += changes.rodstock; }
+
+                if (changeLog.length > 0) {
+                    log(`✅ ${file.name} → ${changeLog.join(', ')}`, 'success');
+                } else {
+                    log(`⚠️ ${file.name} → brak zmian (brak rozpoznanych wzorców Planbar)`, 'warn');
+                }
+            } catch (err) {
+                log(`❌ ${file.name} → błąd: ${err.message}`, 'error');
+            }
+        }
+
+        log('─'.repeat(50));
+        log(`Konwersja zakończona: ${totalFiles}/${uploadedFiles.length} plików`, 'success');
+
+        // Summary
+        summaryEl.innerHTML = `
+            <div class="summary-item">
+                <div class="value">${totalFiles}</div>
+                <div class="label">Plików skonwertowanych</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${headerChanges}</div>
+                <div class="label">Nagłówków poprawionych</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${slabdateChanges}</div>
+                <div class="label">SLABDATE poprawionych</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">${rodstockChanges}</div>
+                <div class="label">Prętów skonwertowanych</div>
+            </div>
+        `;
+
+        // Generate ZIP
+        convertedZip = await zip.generateAsync({ type: 'blob' });
+        convertBtn.textContent = '⚙️ Konwertuj pliki';
+        convertBtn.disabled = false;
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        if (!convertedZip) return;
+        const orderName = document.getElementById('orderName').value.trim().toUpperCase() || 'converted';
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(convertedZip);
+        a.download = `${orderName}_unitechnik.zip`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+    </script>
+</body>
+</html>
